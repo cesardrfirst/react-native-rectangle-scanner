@@ -33,6 +33,10 @@ public class RNRectangleScannerManager extends ViewGroupManager<MainView> {
     }
 
     // MARK: Props
+    @ReactProp(name = "fullScreen", defaultBoolean = false)
+    public void setEnableTorch(MainView view, Boolean fullScreen) {
+        view.setFullScreen(fullScreen);
+    }
     @ReactProp(name = "enableTorch", defaultBoolean = false)
     public void setEnableTorch(MainView view, Boolean enable) {
         view.setEnableTorch(enable);

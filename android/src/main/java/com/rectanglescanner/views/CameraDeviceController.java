@@ -50,6 +50,7 @@ public class CameraDeviceController extends JavaCameraView implements PictureCal
     protected Boolean enableTorch = false;
     public int lastDetectedRotation = Surface.ROTATION_0;
     protected View mView = null;
+    public Boolean mIsFullScreen = false;
 
 
     protected boolean cameraIsSetup = false;
@@ -78,6 +79,14 @@ public class CameraDeviceController extends JavaCameraView implements PictureCal
     //================================================================================
     // Setters
     //================================================================================
+
+    public void setFullScreen(boolean mIsFullScreen){
+
+      this.mIsFullScreen = mIsFullScreen
+      stopCamera();
+      startCamera();
+
+    }
 
     /**
      Toggles the flash on the camera device
@@ -325,27 +334,29 @@ public class CameraDeviceController extends JavaCameraView implements PictureCal
       }
 
       mCamera.setDisplayOrientation(getScreenRotationOnPhone());
-
-      Display display = mActivity.getWindowManager().getDefaultDisplay();
-      android.graphics.Point size = new android.graphics.Point();
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-          display.getRealSize(size);
-      }
-
-      int displayWidth = Math.min(size.y, size.x);
-      int displayHeight = Math.max(size.y, size.x);
-      float displayRatio = (float) displayHeight / displayWidth;
-
-      Camera.Size pSize = getOptimalResolution(displayRatio, getResolutionList());
-      param.setPreviewSize(pSize.width, pSize.height);
       param.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
-      float previewRatio = (float) pSize.width / pSize.height;
-      setDevicePreviewSize(previewRatio);
 
-      Camera.Size maxRes = getOptimalResolution(previewRatio, getPictureResolutionList());
-      if (maxRes != null) {
-          param.setPictureSize(maxRes.width, maxRes.height);
-          Log.d(TAG, "max supported picture resolution: " + maxRes.width + "x" + maxRes.height);
+      if(!this.mIsFullScreen){
+        Display display = mActivity.getWindowManager().getDefaultDisplay();
+        android.graphics.Point size = new android.graphics.Point();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            display.getRealSize(size);
+        }
+
+        int displayWidth = Math.min(size.y, size.x);
+        int displayHeight = Math.max(size.y, size.x);
+        float displayRatio = (float) displayHeight / displayWidth;
+
+        Camera.Size pSize = getOptimalResolution(displayRatio, getResolutionList());
+        param.setPreviewSize(pSize.width, pSize.height);
+        float previewRatio = (float) pSize.width / pSize.height;
+        setDevicePreviewSize(previewRatio);
+
+        Camera.Size maxRes = getOptimalResolution(previewRatio, getPictureResolutionList());
+        if (maxRes != null) {
+            param.setPictureSize(maxRes.width, maxRes.height);
+            Log.d(TAG, "max supported picture resolution: " + maxRes.width + "x" + maxRes.height);
+        }
       }
 
       try {

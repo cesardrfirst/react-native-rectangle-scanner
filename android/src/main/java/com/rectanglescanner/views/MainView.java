@@ -43,6 +43,10 @@ public class MainView extends FrameLayout {
         }
     }
 
+    public void setFullScreen(boolean fullScreen){
+      view.setFullScreen(fullScreen);
+    }
+
     public void setEnableTorch(boolean enable) {
         view.setEnableTorch(enable);
     }
