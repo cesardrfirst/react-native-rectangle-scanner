@@ -83,8 +83,6 @@ public class CameraDeviceController extends JavaCameraView implements PictureCal
     public void setFullScreen(boolean mIsFullScreen){
 
       this.mIsFullScreen = mIsFullScreen;
-      cleanupCamera();
-      startCamera();
 
     }
 
