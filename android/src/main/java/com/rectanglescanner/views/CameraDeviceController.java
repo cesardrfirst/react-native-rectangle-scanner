@@ -83,8 +83,8 @@ public class CameraDeviceController extends JavaCameraView implements PictureCal
     public void setFullScreen(boolean mIsFullScreen){
 
       this.mIsFullScreen = mIsFullScreen;
-      this.cameraIsSetup = false;
-      refreshCamera();
+      cleanupCamera();
+      startCamera();
 
     }
 
@@ -336,6 +336,8 @@ public class CameraDeviceController extends JavaCameraView implements PictureCal
       mCamera.setDisplayOrientation(getScreenRotationOnPhone());
       param.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
 
+      // If we skip the following block of code the camera view is automatically
+      // set to full screen.
       if(!this.mIsFullScreen){
         Display display = mActivity.getWindowManager().getDefaultDisplay();
         android.graphics.Point size = new android.graphics.Point();
