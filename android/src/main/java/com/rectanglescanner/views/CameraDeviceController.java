@@ -80,6 +80,9 @@ public class CameraDeviceController extends JavaCameraView implements PictureCal
     // Setters
     //================================================================================
 
+    /**
+     * Enables the camera view at full screen.
+     */
     public void setFullScreen(boolean mIsFullScreen){
 
       this.mIsFullScreen = mIsFullScreen;
